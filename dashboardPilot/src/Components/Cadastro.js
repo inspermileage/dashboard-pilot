@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import colors from '../misc/colors';
 
-export default function Components() {
+export default function Cadastro() {
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={colors.black} />
+    <View style={styles.viewIn}>
+      <StatusBar backgroundColor={colors.black} hidden={true} />
       <Image
         style={styles.image}
         source={require('../../assets/images/logo.png')}
@@ -23,11 +23,11 @@ export default function Components() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.black,
+  viewIn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.orange,
   },
   image: {
     margin: 20,
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: colors.orange,
     fontFamily: 'Roboto',
-    marginRight: Dimensions.get('screen').width * 0.4,
-    marginTop: Dimensions.get('screen').height * 0.05,
+    marginRight: Dimensions.get('screen').width * 0.15,
+    marginTop: Dimensions.get('screen').height * 0.1,
     fontWeight: 'bold',
     fontStyle: 'italic',
   },
