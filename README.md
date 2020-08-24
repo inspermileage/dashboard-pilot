@@ -4,7 +4,7 @@ Este repositório contém o código da dashboard que ficará dentro do veículo 
 
 ### Pré-Requisitos
 
-Para executar o projeto, você precisa ter instalado em sua máquina: NodeJS, Yarn, Expo CLI e o emulador do Android. Que podem ser instaladas pelos métodos a seguir:
+Para executar o projeto, você precisa ter instalado em sua máquina: NodeJS, Yarn e o emulador do Android. Que podem ser instaladas pelos métodos a seguir:
 
 #### NodeJS (v12.x.x)
 
@@ -35,12 +35,6 @@ Para executar o projeto, você precisa ter instalado em sua máquina: NodeJS, Ya
   https://yarnpkg.com/latest.msi
   ```
 
-#### Expo CLI 
-
-- NPM
-  ```bash
-  $ npm install expo-cli --global
-  ```
   
 #### Emulador do Android
 
@@ -53,7 +47,7 @@ Para executar o projeto, você precisa ter instalado em sua máquina: NodeJS, Ya
 
 Após organizar todo o ambiente de desenvolvimento, a aplicação pode ser executada via terminal pelo
 comando:
-- `expo start`
+- `react-native run-android`
 
 ## Contribuindo
 Siga os passos abaixo para realizar contribuições no projeto, 
