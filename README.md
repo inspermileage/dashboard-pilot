@@ -49,11 +49,11 @@ Para executar o projeto, você precisa ter instalado em sua máquina: NodeJS, Ya
   https://developer.android.com/studio
   ```
 
+## Executando
 
-##Executando
 Após organizar todo o ambiente de desenvolvimento, a aplicação pode ser executada via terminal pelo
 comando:
-- `react-native run android`
+- `expo start`
 
 ## Contribuindo
 Siga os passos abaixo para realizar contribuições no projeto, 
