@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 35,
     color: colors.orange,
-    fontFamily: 'Roboto',
+    //fontFamily: 'Roboto',
     marginRight: Dimensions.get('screen').width * 0.15,
     marginTop: Dimensions.get('screen').height * 0.1,
     fontWeight: 'bold',

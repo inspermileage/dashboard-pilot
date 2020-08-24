@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 import colors from '../../Themes/colors';
 import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
 import Cadastro from '../../Components/Cadastro';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import BottomArrow from '../../Components/bottomArrow';
 export default function Register() {
   return (
     <View style={styles.container}>
@@ -15,23 +16,54 @@ export default function Register() {
         completedStepIconColor={colors.orange}
         activeLabelColor={colors.orange}
         disabledStepIconColor={colors.orange}>
-        <ProgressStep nextBtnTextStyle={{color: 'lightgray'}} label="Car">
+        <ProgressStep
+          nextBtnText={
+            <Icon name={'arrow-right'} size={50} color={colors.orange} />
+          }
+          previousBtnText={
+            <Icon name={'arrow-left'} size={50} color={colors.orange} />
+          }
+          nextBtnTextStyle={{color: 'lightgray'}}
+          label="Car">
           <Textinho pagina="car" />
         </ProgressStep>
         <ProgressStep
+          nextBtnText={
+            <Icon name={'arrow-right'} size={50} color={colors.orange} />
+          }
+          previousBtnText={
+            <Icon name={'arrow-left'} size={50} color={colors.orange} />
+          }
           nextBtnTextStyle={{color: 'lightgray'}}
           previousBtnTextStyle={{color: 'lightgray'}}
           label="Track">
           <Textinho pagina="track" />
         </ProgressStep>
         <ProgressStep
+          nextBtnText={
+            <Icon name={'arrow-right'} size={50} color={colors.orange} />
+          }
+          previousBtnText={
+            <Icon name={'arrow-left'} size={50} color={colors.orange} />
+          }
           nextBtnTextStyle={{color: 'lightgray'}}
           previousBtnTextStyle={{color: 'lightgray'}}
           label="Round">
           <Textinho pagina="round" />
         </ProgressStep>
         <ProgressStep
-          nextBtnTextStyle={{color: colors.orange}}
+          finishBtnText={'Salvar'}
+          previousBtnText={
+            <Icon name={'arrow-left'} size={50} color={colors.orange} />
+          }
+          nextBtnTextStyle={{
+            color: colors.white,
+            backgroundColor: colors.orange,
+            width: 120,
+            height: 40,
+            textAlign: 'center',
+            padding: 10,
+          }}
           previousBtnTextStyle={{color: 'lightgray'}}
           label="Phone">
           <Textinho pagina="phone" />
