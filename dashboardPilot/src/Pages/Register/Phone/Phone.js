@@ -1,6 +1,11 @@
-import React from './node_modules/react';
+import React from 'react';
 import {View} from 'react-native';
+import InputBasic from '../../../Components/InputBasic';
 
 export default function Phone() {
-  return <View />;
+  return (
+    <View>
+      <InputBasic label="Telefone" height={40} type="telephoneNumber" />
+    </View>
+  );
 }
