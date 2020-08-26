@@ -6,5 +6,5 @@ import Dashboard from './Pages/Main';
 import Cadastro from './Components/Cadastro';
 
 export default function App() {
-  return <Cadastro />;
+  return <Dashboard />;
 }

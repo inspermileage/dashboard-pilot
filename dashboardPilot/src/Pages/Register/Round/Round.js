@@ -2,16 +2,14 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
 
-export default function Round() {
-  const [round, setRound] = useState('');
-  const [description, setDescription] = useState('');
-  const [reason, setReason] = useState('');
+export default function Round(props) {
+  const {setRound, setDescription, setReason} = props;
   return (
     <View>
       <InputBasic
         label="Round"
         height={40}
-        type="none"
+        type="default"
         onChangeText={(e) => {
           setRound(e);
         }}
@@ -19,7 +17,7 @@ export default function Round() {
       <InputBasic
         label="Description"
         height={100}
-        type="none"
+        type="default"
         onChangeText={(e) => {
           setDescription(e);
         }}
@@ -27,7 +25,7 @@ export default function Round() {
       <InputBasic
         label="Reason"
         height={40}
-        type="none"
+        type="default"
         onChangeText={(e) => {
           setReason(e);
         }}

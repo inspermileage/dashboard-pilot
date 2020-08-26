@@ -1,18 +1,32 @@
-import React, {useRef} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {View, StyleSheet, ScrollView, Alert} from 'react-native';
 import colors from '../../Themes/colors';
 import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
 import Cadastro from '../../Components/Cadastro';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import BottomArrow from '../../Components/bottomArrow';
 import Car from './Car/Car';
 import Phone from './Phone/Phone';
 import Round from './Round/Round';
 import Track from './Track/Track';
+import {sendCarInfo, sendRoundInfo, sendTrackInfo} from '../../Functions/axios';
 
 export default function Register() {
-  const scroll = useRef();
+  const [carName, setCarName] = useState('');
+  const [carDescription, setCarDescription] = useState('');
+  const [carId, setCarId] = useState();
 
+  const [round, setRound] = useState('');
+  const [description, setDescription] = useState('');
+  const [reason, setReason] = useState('');
+  const [roundId, setRoundId] = useState();
+
+  const [trackName, setTrackName] = useState('');
+  const [trackDescription, setTrackDescription] = useState('');
+  const [trackId, setTrackId] = useState();
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const scroll = useRef();
   const changeStep = () => {
     scroll.current?.scrollTo({x: 0, y: 0, animated: true});
   };
@@ -30,7 +44,9 @@ export default function Register() {
           disabledStepIconColor={colors.orange}>
           {/* CAR */}
           <ProgressStep
-            onNext={changeStep}
+            onNext={() => {
+              sendCarInfo(carName, carDescription, setCarId), changeStep;
+            }}
             onPrevious={changeStep}
             nextBtnText={
               <Icon name={'arrow-right'} size={50} color={colors.orange} />
@@ -40,12 +56,18 @@ export default function Register() {
             }
             nextBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Car">
-            <Car />
+            <Car
+              setCarName={setCarName}
+              setCarDescription={setCarDescription}
+            />
           </ProgressStep>
 
           {/* TRACK */}
           <ProgressStep
-            onNext={changeStep}
+            onNext={() => {
+              sendTrackInfo(trackName, trackDescription, setTrackId),
+                changeStep;
+            }}
             onPrevious={changeStep}
             nextBtnText={
               <Icon name={'arrow-right'} size={50} color={colors.orange} />
@@ -56,12 +78,25 @@ export default function Register() {
             nextBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Track">
-            <Track />
+            <Track
+              setTrackName={setTrackName}
+              setTrackDescription={setTrackDescription}
+            />
           </ProgressStep>
 
           {/* ROUND */}
           <ProgressStep
-            onNext={changeStep}
+            onNext={() => {
+              sendRoundInfo(
+                round,
+                description,
+                reason,
+                trackId,
+                carId,
+                setRoundId,
+              ),
+                changeStep;
+            }}
             onPrevious={changeStep}
             nextBtnText={
               <Icon name={'arrow-right'} size={50} color={colors.orange} />
@@ -72,7 +107,11 @@ export default function Register() {
             nextBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Round">
-            <Round />
+            <Round
+              setRound={setRound}
+              setDescription={setDescription}
+              setReason={setReason}
+            />
           </ProgressStep>
 
           {/* PHONE */}
@@ -93,7 +132,7 @@ export default function Register() {
             }}
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Phone">
-            <Phone />
+            <Phone setPhoneNumber={setPhoneNumber} />
           </ProgressStep>
         </ProgressSteps>
       </ScrollView>

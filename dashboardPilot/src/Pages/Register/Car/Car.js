@@ -2,16 +2,15 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
 
-export default function Car() {
-  const [carName, setCarName] = useState('');
-  const [carDescription, setCarDescription] = useState('');
+export default function Car(props) {
+  const {setCarName, setCarDescription} = props;
 
   return (
     <View>
       <InputBasic
         label="Car"
         height={40}
-        type="none"
+        type="default"
         onChangeText={(e) => {
           setCarName(e);
         }}
@@ -19,7 +18,7 @@ export default function Car() {
       <InputBasic
         label="Description"
         height={120}
-        type="none"
+        type="default"
         onChangeText={(e) => {
           setCarDescription(e);
         }}
