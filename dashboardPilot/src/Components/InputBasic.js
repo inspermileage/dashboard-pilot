@@ -9,8 +9,9 @@ export default function InputBasic(props) {
       <Text style={styles.label}>{label}</Text>
       <View style={styles.internView}>
         <TextInput
+          {...props}
           selectionColor={colors.orange}
-          textContentType={type}
+          keyboardType={type}
           style={[styles.input, {height: height}]}></TextInput>
       </View>
     </View>
