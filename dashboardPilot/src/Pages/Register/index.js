@@ -9,19 +9,26 @@ import Phone from './Phone/Phone';
 import Round from './Round/Round';
 import Track from './Track/Track';
 import {sendCarInfo, sendRoundInfo, sendTrackInfo} from '../../Functions/axios';
+import {useSelector, useDispatch} from 'react-redux';
 
 export default function Register() {
-  const [carName, setCarName] = useState('');
-  const [carDescription, setCarDescription] = useState('');
+  // const [carName, setCarName] = useState('');
+  // const [carDescription, setCarDescription] = useState('');
+
+  dispatch = useDispatch();
+  const dataCar = useSelector((state) => state.register.carData);
+  const dataTrack = useSelector((state) => state.register.trackData);
+  const dataRound = useSelector((state) => state.register.roundData);
+
   const [carId, setCarId] = useState();
 
-  const [round, setRound] = useState('');
-  const [description, setDescription] = useState('');
-  const [reason, setReason] = useState('');
+  // const [round, setRound] = useState('');
+  // const [description, setDescription] = useState('');
+  //const [reason, setReason] = useState('');
   const [roundId, setRoundId] = useState();
 
-  const [trackName, setTrackName] = useState('');
-  const [trackDescription, setTrackDescription] = useState('');
+  // const [trackName, setTrackName] = useState('');
+  // const [trackDescription, setTrackDescription] = useState('');
   const [trackId, setTrackId] = useState();
 
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -45,7 +52,8 @@ export default function Register() {
           {/* CAR */}
           <ProgressStep
             onNext={() => {
-              sendCarInfo(carName, carDescription, setCarId), changeStep;
+              sendCarInfo(dataCar.name, dataCar.description, setCarId),
+                changeStep;
             }}
             onPrevious={changeStep}
             nextBtnText={
@@ -56,17 +64,13 @@ export default function Register() {
             }
             nextBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Car">
-            <Car
-              setCarName={setCarName}
-              setCarDescription={setCarDescription}
-            />
+            <Car dispatch={dispatch} />
           </ProgressStep>
 
           {/* TRACK */}
           <ProgressStep
             onNext={() => {
-              sendTrackInfo(trackName, trackDescription, setTrackId),
-                changeStep;
+              sendTrackInfo(dataTrack.name, dataTrack.description), changeStep;
             }}
             onPrevious={changeStep}
             nextBtnText={
@@ -78,22 +82,18 @@ export default function Register() {
             nextBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Track">
-            <Track
-              setTrackName={setTrackName}
-              setTrackDescription={setTrackDescription}
-            />
+            <Track dispatch={dispatch} />
           </ProgressStep>
 
           {/* ROUND */}
           <ProgressStep
             onNext={() => {
               sendRoundInfo(
-                round,
-                description,
-                reason,
-                trackId,
-                carId,
-                setRoundId,
+                dataRound.name,
+                dataRound.description,
+                dataRound.reason,
+                dataRound.track_id,
+                dataRound.car_id,
               ),
                 changeStep;
             }}
@@ -107,11 +107,7 @@ export default function Register() {
             nextBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Round">
-            <Round
-              setRound={setRound}
-              setDescription={setDescription}
-              setReason={setReason}
-            />
+            <Round dispatch={dispatch} />
           </ProgressStep>
 
           {/* PHONE */}

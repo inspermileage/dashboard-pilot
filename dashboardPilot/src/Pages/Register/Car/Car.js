@@ -1,9 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
+import {setCarData} from '../../../Store/register/actions';
 
 export default function Car(props) {
-  const {setCarName, setCarDescription} = props;
+  const {dispatch} = props;
+
+  function setData(values, label) {
+    dispatch(setCarData({[label]: values}));
+  }
 
   return (
     <View>
@@ -12,7 +17,7 @@ export default function Car(props) {
         height={40}
         type="default"
         onChangeText={(e) => {
-          setCarName(e);
+          setData(e, 'name');
         }}
       />
       <InputBasic
@@ -20,7 +25,7 @@ export default function Car(props) {
         height={120}
         type="default"
         onChangeText={(e) => {
-          setCarDescription(e);
+          setData(e, 'description');
         }}
       />
     </View>
