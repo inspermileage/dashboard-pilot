@@ -1,61 +1,73 @@
 import React from 'react';
 import axios from 'axios';
 import {Alert} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setRoundData} from '../Store/register/actions';
+import {useDateFormated} from './date';
 
-export async function sendCarInfo(name, description) {
-  const dadosCar = {
-    creation_date: '2020-08-01',
-    description: description,
-    name: name,
-  };
+export function postData(dataCar, dataTrack, dataRound) {
+  const dispatch = useDispatch();
+  const date = new Date();
+  const dateFormated = useDateFormated(date);
 
-  await axios
-    .post('https://apirestmileage.herokuapp.com/api/car/', dadosCar)
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-      Alert.alert('Deu errado :(');
-    });
-}
+  async function sendCarInfo() {
+    const dadosCar = {
+      creation_date: dateFormated,
+      description: dataCar.description,
+      name: dataCar.name,
+    };
 
-export async function sendTrackInfo(Name, Description, setTrackId) {
-  const dadosTrack = {
-    description: Description,
-    name: Name,
-  };
+    await axios
+      .post('https://apirestmileage.herokuapp.com/api/car/', dadosCar)
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(setRoundData({['car_id']: response.data.id}));
+        console.log('AQUIII', dateFormated);
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert('Deu errado :(');
+      });
+  }
 
-  await axios
-    .post('https://apirestmileage.herokuapp.com/api/track/', dadosTrack)
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error.response);
-      Alert.alert('Deu errado :(');
-    });
-}
+  async function sendTrackInfo() {
+    const dadosTrack = {
+      description: dataTrack.description,
+      name: dataTrack.name,
+    };
 
-export async function sendRoundInfo(round, description, reason, track, car) {
-  const dadosRound = {
-    name: round,
-    description: description,
-    reason: reason,
-    ref_date: '2020-08-26',
-    track_id: 1,
-    car_id: 3,
-  };
+    await axios
+      .post('https://apirestmileage.herokuapp.com/api/track/', dadosTrack)
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(setRoundData({['track_id']: response.data.id}));
+      })
+      .catch(function (error) {
+        console.log(error.response);
+        Alert.alert('Deu errado :(');
+      });
+  }
 
-  await axios
-    .post('https://apirestmileage.herokuapp.com/api/round/', dadosRound)
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error.response);
-      Alert.alert('Deu errado :(');
-    });
+  async function sendRoundInfo() {
+    const dadosRound = {
+      name: dataRound.name,
+      description: dataRound.description,
+      reason: dataRound.reason,
+      ref_date: dateFormated,
+      track_id: dataRound.track_id,
+      car_id: dataRound.car_id,
+    };
+
+    await axios
+      .post('https://apirestmileage.herokuapp.com/api/round/', dadosRound)
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+        Alert.alert('Deu errado :(');
+      });
+  }
+
+  return {sendCarInfo, sendTrackInfo, sendRoundInfo};
 }
