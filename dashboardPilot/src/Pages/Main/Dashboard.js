@@ -9,19 +9,26 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
-const {width, height} = Dimensions.get('screen');
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
+const {width, height} = Dimensions.get('screen');
 export default function Dashboard() {
   const [battery, setBattery] = useState(0.4);
   const [call, setCall] = useState(false);
+
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.leftIcons}>
-          <TouchableOpacity style={{marginRight: 25}}>
+          <TouchableOpacity
+            style={{marginRight: 25}}
+            onPress={() => {
+              navigation.toggleDrawer();
+            }}>
             <Icon name={'navicon'} size={65} color={colors.orange} />
           </TouchableOpacity>
 

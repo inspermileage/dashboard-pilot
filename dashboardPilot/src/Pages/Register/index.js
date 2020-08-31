@@ -10,6 +10,7 @@ import Round from './Round/Round';
 import Track from './Track/Track';
 import {postData} from '../../Functions/axios';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -29,6 +30,12 @@ export default function Register() {
   const changeStep = () => {
     scroll.current?.scrollTo({x: 0, y: 0, animated: true});
   };
+
+  const navigation = useNavigation();
+
+  function goTopage() {
+    navigation.navigate('Main');
+  }
 
   return (
     <View style={styles.container}>
@@ -97,6 +104,7 @@ export default function Register() {
           {/* PHONE */}
           <ProgressStep
             onPrevious={changeStep}
+            onSubmit={goTopage}
             finishBtnText={'Salvar'}
             previousBtnText={
               <Icon name={'arrow-left'} size={50} color={colors.orange} />

@@ -1,22 +1,20 @@
-import React, {useState} from 'react';
-
-import BottomArrow from './Components/bottomArrow';
+import React from 'react';
 
 import Dashboard from './Pages/Main';
-import Cadastro from './Components/Cadastro';
 
 import Register from './Pages/Register';
 import registerReducer from './Store/register/reducer';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
-import Car from './Pages/Register/Car';
+import CustomDrawer from './Components/customDrawer';
 
-// export default function App() {
-//   return <Dashboard />;
-// }
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-export default function AppWrapper() {
+const Drawer = createDrawerNavigator();
+
+export default function App() {
   const rootReducer = combineReducers({
     register: registerReducer,
   });
@@ -33,7 +31,21 @@ export default function AppWrapper() {
 
   return (
     <Provider store={provideStore()}>
-      <Register />
+      <NavigationContainer>
+        <Drawer.Navigator
+          drawerContent={(props) => <CustomDrawer {...props} />}>
+          <Drawer.Screen
+            name="Cadastro"
+            component={Register}
+            options={{headerShown: false}}
+          />
+          <Drawer.Screen
+            name="Main"
+            component={Dashboard}
+            options={{headerShown: false}}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

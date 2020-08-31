@@ -7,7 +7,7 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import colors from '../misc/colors';
+import colors from '../Themes/colors';
 
 export default function Cadastro() {
   return (
@@ -15,7 +15,7 @@ export default function Cadastro() {
       <StatusBar backgroundColor={colors.black} hidden={true} />
       <Image
         style={styles.image}
-        source={require('../../assets/images/logo.png')}
+        source={require('../assets/images/logo.png')}
       />
       <Text style={styles.txt}>CADASTRAR</Text>
     </View>
