@@ -13,7 +13,7 @@ import * as Progress from 'react-native-progress';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+
 import {Linking} from 'react-native';
 // ...
 
@@ -27,7 +27,7 @@ export default function Dashboard() {
   const phone = dataPhone.phoneNumber;
 
   function callToNumber() {
-    const number = parseInt(phone);
+    number = parseInt(phone);
     Linking.openURL(`tel:${number}`);
     setCall(!call);
   }
