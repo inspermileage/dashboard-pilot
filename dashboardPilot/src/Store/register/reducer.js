@@ -1,4 +1,9 @@
-import {REGISTER_CAR, REGISTER_TRACK, REGISTER_ROUND} from './types';
+import {
+  REGISTER_CAR,
+  REGISTER_TRACK,
+  REGISTER_ROUND,
+  REGISTER_PHONE,
+} from './types';
 
 const initialState = {
   carData: {
@@ -20,6 +25,10 @@ const initialState = {
     track_id: 0,
     car_id: 0,
   },
+
+  phoneData: {
+    phoneNumber: '',
+  },
 };
 
 function registerReducer(state = initialState, {type, payload}) {
@@ -35,6 +44,11 @@ function registerReducer(state = initialState, {type, payload}) {
       return {
         ...state,
         roundData: {...state.roundData, ...payload},
+      };
+    case REGISTER_PHONE:
+      return {
+        ...state,
+        phoneData: {...state.phoneData, ...payload},
       };
 
     default:

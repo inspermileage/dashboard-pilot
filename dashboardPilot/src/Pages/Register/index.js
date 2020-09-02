@@ -17,6 +17,7 @@ export default function Register() {
   const dataCar = useSelector((state) => state.register.carData);
   const dataTrack = useSelector((state) => state.register.trackData);
   const dataRound = useSelector((state) => state.register.roundData);
+  const dataPhone = useSelector((state) => state.register.phoneData);
 
   const {sendCarInfo, sendTrackInfo, sendRoundInfo} = postData(
     dataCar,
@@ -34,6 +35,7 @@ export default function Register() {
   const navigation = useNavigation();
 
   function goTopage() {
+    console.log(dataPhone);
     navigation.navigate('Main');
   }
 

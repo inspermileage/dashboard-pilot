@@ -11,7 +11,11 @@ import {
 import * as Progress from 'react-native-progress';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+import {Linking} from 'react-native';
+// ...
 
 const {width, height} = Dimensions.get('screen');
 export default function Dashboard() {
@@ -19,6 +23,14 @@ export default function Dashboard() {
   const [call, setCall] = useState(false);
 
   const navigation = useNavigation();
+  const dataPhone = useSelector((state) => state.register.phoneData);
+  const phone = dataPhone.phoneNumber;
+
+  function callToNumber() {
+    const number = parseInt(phone);
+    Linking.openURL(`tel:${number}`);
+    setCall(!call);
+  }
 
   return (
     <View style={styles.container}>
@@ -32,7 +44,10 @@ export default function Dashboard() {
             <Icon name={'navicon'} size={65} color={colors.orange} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setCall(!call)}>
+          <TouchableOpacity
+            onPress={() => {
+              callToNumber();
+            }}>
             <Icon
               name={'phone'}
               size={65}
