@@ -7,6 +7,8 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
+  DeviceEventEmitter,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
@@ -15,12 +17,74 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {Linking} from 'react-native';
+import {RNSerialport, definitions, actions} from 'react-native-serialport';
 // ...
 
 const {width, height} = Dimensions.get('screen');
 export default function Dashboard() {
   const [battery, setBattery] = useState(0.4);
   const [call, setCall] = useState(false);
+
+  const [serviceStarted, setServiceStarted] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [usbAttached, setUsbAttached] = useState(false);
+  const [data, setData] = useState({
+    accelerometer: 0.23,
+    altimeter: 16.77,
+    barometer: 10.08,
+    temperature: 3.28,
+    rpm: 199.33,
+    voltage: 2.98,
+    current: 0.31,
+  });
+
+  const parsedToJSON = (data) => {
+    // Recebe os dados da biblioteca USB Serial e os parseia, retornando um objeto
+    const dataSet = [
+      'button',
+      'accelerometer',
+      'altimeter',
+      'barometer',
+      'temperature',
+      'rpm',
+      'voltage',
+      'current',
+    ];
+
+    return Object.assign(
+      {},
+      ...dataSet.map((n, index) => ({[n]: data[index]})),
+    );
+  };
+
+  function onReadData(data) {
+    console.log(data);
+    const payload = RNSerialport.hexToUtf16(data.payload);
+
+    console.log('hi');
+
+    // Define o RegEx para extração dos dados do streaming
+    var re = new RegExp('<([^>]+)>');
+    var parsed = '';
+
+    // Se algum dado for extraído pela regra do Regex
+    if (re.test(payload)) {
+      // Ele é splitado por vírgulas e retornado como lista
+      var parsed = payload.match(re)[1].split(',').map(Number);
+
+      // Atribui ao estado do componente os dados
+      setData({data: parsedToJSON(parsed)});
+
+      // Se a telemetria estiver rodando, será feita uma requisição POST
+      // para o backend para cada dado novo.
+      // if (this.state.config.running == true) {
+      //     await api.post(
+      //         `/data/${this.state.config.dataset}`,
+      //         data
+      //     );
+      // }
+    }
+  }
 
   const navigation = useNavigation();
   const dataPhone = useSelector((state) => state.register.phoneData);
@@ -31,6 +95,80 @@ export default function Dashboard() {
     Linking.openURL(`tel:${number}`);
     setCall(!call);
   }
+
+  function onUsbAttached() {
+    console.log(' alosjso');
+    setUsbAttached(true);
+  }
+
+  function onUsbDetached() {
+    setUsbAttached(false);
+  }
+
+  function onServiceStarted(response) {
+    setServiceStarted(true);
+    console.log(response);
+    if (response.deviceAttached) {
+      onUsbAttached();
+      console.log(' aquiiiiss');
+    }
+  }
+  function onServiceStopped() {
+    setServiceStarted(false);
+  }
+
+  function onConnectedDevice() {
+    setConnected(true);
+    alert('Device Connected');
+  }
+  function onDisconnectedDevice() {
+    setConnected(false);
+    alert('Device Disconnected');
+  }
+
+  function onError(error) {
+    alert('Code: ' + error.errorCode + ' Message: ' + error.errorMessage);
+  }
+
+  useEffect(() => {
+    StatusBar.setHidden(true);
+    DeviceEventEmitter.addListener(actions.ON_SERVICE_STARTED, (start) =>
+      onServiceStarted(start),
+    );
+    DeviceEventEmitter.addListener(
+      actions.ON_SERVICE_STOPPED,
+      onServiceStopped(),
+    );
+    DeviceEventEmitter.addListener(actions.ON_DEVICE_ATTACHED, onUsbAttached());
+    DeviceEventEmitter.addListener(actions.ON_DEVICE_DETACHED, onUsbDetached());
+    DeviceEventEmitter.addListener(actions.ON_ERROR, (error) => onError(error));
+    DeviceEventEmitter.addListener(actions.ON_CONNECTED, onConnectedDevice());
+    DeviceEventEmitter.addListener(
+      actions.ON_DISCONNECTED,
+      onDisconnectedDevice(),
+    );
+    DeviceEventEmitter.addListener(actions.ON_READ_DATA, (data) =>
+      onReadData(data),
+    );
+    RNSerialport.setReturnedDataType(definitions.RETURNED_DATA_TYPES.HEXSTRING);
+    RNSerialport.setAutoConnectBaudRate(9600);
+    RNSerialport.setInterface(-1);
+    RNSerialport.setAutoConnect(true);
+    RNSerialport.startUsbService();
+
+    return () => {
+      stopUsbListener();
+    };
+  }, [usbAttached]);
+
+  const stopUsbListener = async () => {
+    DeviceEventEmitter.removeAllListeners();
+    const isOpen = await RNSerialport.isOpen();
+    if (isOpen) {
+      RNSerialport.disconnect();
+    }
+    RNSerialport.stopUsbService();
+  };
 
   return (
     <View style={styles.container}>
@@ -91,7 +229,10 @@ export default function Dashboard() {
 
         <View style={styles.rightCircle}>
           <Text style={styles.txtcircle}>INST SPEED</Text>
-          <Text style={styles.txtnumbers}>23</Text>
+          <Text style={styles.txtnumbers}>
+            {' '}
+            {data.accelerometer === undefined ? '0' : data.accelerometer}
+          </Text>
           <Text style={styles.txtcircle}>KM/H </Text>
         </View>
       </View>
