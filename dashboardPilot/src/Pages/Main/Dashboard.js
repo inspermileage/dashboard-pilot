@@ -90,11 +90,6 @@ export default function Dashboard() {
   const dataPhone = useSelector((state) => state.register.phoneData);
   const phone = dataPhone.phoneNumber;
 
-  function callToNumber() {
-    number = parseInt(phone);
-    Linking.openURL(`tel:${number}`);
-    setCall(!call);
-  }
 
   function onUsbAttached() {
     console.log(' alosjso');
@@ -182,16 +177,7 @@ export default function Dashboard() {
             <Icon name={'navicon'} size={65} color={colors.orange} />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              callToNumber();
-            }}>
-            <Icon
-              name={'phone'}
-              size={65}
-              color={call ? colors.red : colors.green}
-            />
-          </TouchableOpacity>
+          
         </View>
 
         <View style={styles.rightIcons}>
