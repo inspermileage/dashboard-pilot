@@ -4,18 +4,14 @@ import colors from '../Themes/colors';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 export default function DropDown(props) {
-  const {height, label} = props;
+  const {height, label,data} = props;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.internView}>
         <DropDownPicker
             {...props}
-            items={[
-                {label: 'Test', value: 'Test', icon: () => <Icon name="flag" size={18} color={colors.light_orange} />},
-                {label: 'Competition', value: 'Competition', icon: () => <Icon name="flag" size={18} color={colors.orange} />},
-                {label: 'Inspection', value: 'Inspection', icon: () => <Icon name="flag" size={18} color={colors.red} />},
-            ]}
+            items={data}
             
             containerStyle={{height: 40}}
             style={[styles.input, {height: height}]}

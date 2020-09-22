@@ -3,7 +3,8 @@ import {View} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
 import {setRoundData} from '../../../Store/register/actions';
 import DropDown from '../../../Components/Dropdown';
-
+import Icon from 'react-native-vector-icons/Feather';
+import colors from '../../../Themes/colors';
 
 export default function Round(props) {
   const {dispatch} = props;
@@ -11,6 +12,11 @@ export default function Round(props) {
   function setData(values, label) {
     dispatch(setRoundData({[label]: values}));
   }
+  let data=[
+    {label: 'Test', value: 'Test', icon: () => <Icon name="flag" size={18} color={colors.light_orange} />},
+    {label: 'Competition', value: 'Competition', icon: () => <Icon name="flag" size={18} color={colors.orange} />},
+    {label: 'Inspection', value: 'Inspection', icon: () => <Icon name="flag" size={18} color={colors.red} />},
+  ];
 
   return (
     <View>
@@ -25,6 +31,7 @@ export default function Round(props) {
       <DropDown
         label="Reason"
         height={40}
+        data = {data}
         onChangeItem={item => setData(item.value,'reason')}
         defaultValue={'Test'}
       />
