@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
 import {setRoundData} from '../../../Store/register/actions';
+import DropDown from '../../../Components/Dropdown';
+
 
 export default function Round(props) {
   const {dispatch} = props;
@@ -9,6 +11,7 @@ export default function Round(props) {
   function setData(values, label) {
     dispatch(setRoundData({[label]: values}));
   }
+
   return (
     <View>
       <InputBasic
@@ -19,6 +22,12 @@ export default function Round(props) {
           setData(e, 'name');
         }}
       />
+      <DropDown
+        label="Reason"
+        height={40}
+        onChangeItem={item => setData(item.value,'reason')}
+        defaultValue={'Test'}
+      />
       <InputBasic
         label="Description"
         height={100}
@@ -27,14 +36,7 @@ export default function Round(props) {
           setData(e, 'description');
         }}
       />
-      <InputBasic
-        label="Reason"
-        height={40}
-        type="default"
-        onChangeText={(e) => {
-          setData(e, 'reason');
-        }}
-      />
+      
     </View>
   );
 }
