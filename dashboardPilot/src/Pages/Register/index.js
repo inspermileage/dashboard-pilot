@@ -8,7 +8,7 @@ import Car from './Car/Car';
 import Phone from './Phone/Phone';
 import Round from './Round/Round';
 import Track from './Track/Track';
-import {postData} from '../../Functions/axios';
+import {postData, getData} from '../../Functions/axios';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -24,6 +24,8 @@ export default function Register() {
     dataTrack,
     dataRound,
   );
+  
+  const {getCarInfo, getTrackInfo} = getData();
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -54,6 +56,7 @@ export default function Register() {
           <ProgressStep
             onNext={() => {
               sendCarInfo();
+              getCarInfo();
             }}
             onPrevious={changeStep}
             nextBtnText={

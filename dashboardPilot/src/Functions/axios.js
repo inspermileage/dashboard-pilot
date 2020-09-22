@@ -30,6 +30,7 @@ export function postData(dataCar, dataTrack, dataRound) {
       });
   }
 
+
   async function sendTrackInfo() {
     const dadosTrack = {
       description: dataTrack.description,
@@ -70,4 +71,39 @@ export function postData(dataCar, dataTrack, dataRound) {
   }
 
   return {sendCarInfo, sendTrackInfo, sendRoundInfo};
+}
+
+export function getData(){
+  
+  async function getCarInfo(){
+    await axios
+      .get('https://apirestmileage.herokuapp.com/api/car/')
+      .then(function (response){
+        console.log(response.data);
+        //console.log("print da data")
+        // response.data.map((data,key)=> {
+        //   console.log(data.name);
+        // });
+        // console.log(response.data);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert('Deu errado no getCarInfo :(');
+      });
+      
+  };
+  async function getTrackInfo(){
+    await axios
+      .get('https://apirestmileage.herokuapp.com/api/track/')
+      .then(function (response){
+        console.log(response.data);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert('Deu errado no getTrackInfo :(');
+      });
+  };
+  return {getCarInfo,getTrackInfo}
 }
