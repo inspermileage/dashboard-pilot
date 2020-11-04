@@ -8,7 +8,8 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import CustomDrawer from './Components/customDrawer';
-
+import CarRegister from './Pages/Register/Car/CarRegister';
+import TrackRegister from './Pages/Register/Track/TrackRegister';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
@@ -35,15 +36,26 @@ export default function App() {
         <Drawer.Navigator
           drawerContent={(props) => <CustomDrawer {...props} />}>
           <Drawer.Screen
-            name="Main"
-            component={Dashboard}
-            options={{headerShown: false}}
-          />
-          <Drawer.Screen
             name="Cadastro"
             component={Register}
             options={{headerShown: false}}
           />
+          <Drawer.Screen
+            name="Main"
+            component={Dashboard}
+            options={{headerShown: false}}
+          />
+          
+          <Drawer.Screen
+            name="CarRegister"
+            component={CarRegister}
+            options={{headerShown:false}}
+            />
+            <Drawer.Screen
+            name="TrackRegister"
+            component={TrackRegister}
+            options={{headerShown:false}}
+            />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>
