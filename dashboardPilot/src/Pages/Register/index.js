@@ -19,13 +19,13 @@ export default function Register() {
   const dataRound = useSelector((state) => state.register.roundData);
   const dataPhone = useSelector((state) => state.register.phoneData);
 
-  const {sendCarInfo, sendTrackInfo, sendRoundInfo} = postData(
-    dataCar,
-    dataTrack,
-    dataRound,
-  );
+  // const {sendCarInfo, sendTrackInfo, sendRoundInfo} = postData(
+  //   dataCar,
+  //   dataTrack,
+  //   dataRound,
+  // );
   
-  const {getCarInfo, getTrackInfo} = getData();
+  // const {getCarInfo, getTrackInfo} = getData();
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -55,8 +55,8 @@ export default function Register() {
           {/* CAR */}
           <ProgressStep
             onNext={() => {
-              sendCarInfo();
-              getCarInfo();
+              // sendCarInfo();
+              //getCarInfo();
             }}
             onPrevious={changeStep}
             nextBtnText={
@@ -73,7 +73,8 @@ export default function Register() {
           {/* TRACK */}
           <ProgressStep
             onNext={() => {
-              sendTrackInfo(), changeStep;
+              // sendTrackInfo(), 
+              changeStep;
             }}
             onPrevious={changeStep}
             nextBtnText={
@@ -91,7 +92,8 @@ export default function Register() {
           {/* ROUND */}
           <ProgressStep
             onNext={() => {
-              sendRoundInfo(), changeStep;
+              // sendRoundInfo(), 
+              changeStep;
             }}
             onPrevious={changeStep}
             nextBtnText={

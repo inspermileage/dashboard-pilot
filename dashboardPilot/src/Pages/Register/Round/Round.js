@@ -33,7 +33,7 @@ export default function Round(props) {
         height={40}
         data = {data}
         onChangeItem={item => setData(item.value,'reason')}
-        defaultValue={'Test'}
+        placeholder = "Selecione uma razão "
       />
       <InputBasic
         label="Description"
