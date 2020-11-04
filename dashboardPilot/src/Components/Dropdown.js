@@ -1,27 +1,27 @@
 import React from 'react';
-import {View, TextInput, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, TextInput, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
 import colors from '../Themes/colors';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 export default function DropDown(props) {
-  const {height, label,data} = props;
+  const {height, label,data,placeholder} = props;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.internView}>
+      
         <DropDownPicker
             {...props}
             items={data}
+            defaultValue={null}
+            placeholder={placeholder}
             
-            containerStyle={{height: 40}}
+            containerStyle={{height: 40,width:600}}
             style={[styles.input, {height: height}]}
             itemStyle={{
                 justifyContent: 'flex-start'
             }}
-            dropDownStyle={{backgroundColor: '#fafafa'}}
-            
+            dropDownStyle={{backgroundColor: '#fafafa'}} 
         />
-      </View>
     </View>
   );
 }
@@ -47,5 +47,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     width: Dimensions.get('window').width * 0.82,
     paddingHorizontal: 20,
+  },
+  scroll:{
+    
   },
 });
