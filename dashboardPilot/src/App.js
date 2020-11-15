@@ -34,14 +34,17 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator
           drawerContent={(props) => <CustomDrawer {...props} />}>
-          <Drawer.Screen
-            name="Main"
-            component={Dashboard}
-            options={{headerShown: false}}
-          />
+
+
           <Drawer.Screen
             name="Cadastro"
             component={Register}
+            options={{headerShown: false}}
+          />
+        
+          <Drawer.Screen
+            name="Main"
+            component={Dashboard}
             options={{headerShown: false}}
           />
         </Drawer.Navigator>
