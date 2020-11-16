@@ -1,26 +1,38 @@
 import React, {useState,useEffect} from 'react';
 
-import {View,Text,StyleSheet,TouchableOpacity, ScrollView} from 'react-native';
+import {View,Text,StyleSheet,TouchableOpacity,FlatList,SafeAreaView,VirtualizedList} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
 import {setCarData} from '../../../Store/register/actions';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
-import DropDown from '../../../Components/Dropdown'
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../../Themes/colors';
 import {useNavigation} from '@react-navigation/native';
 export default function Car(props) {
   const navigation = useNavigation();
-  //const {getCarInfo, getTrackInfo} = getData();
-  //const {dispatch} = props;
   const dispatch = useDispatch();
   function setData(values, label) {
     dispatch(setCarData({[label]: values}));
   };
   const [data, setRequestData] = useState([]);
-  // Maneira de utilizar um default value no dropdown (evitando erro)
-  const [defaultvalue, setdefaultvalue] = useState([]);
-  //console.log("Printando data "+data);
+  const [selectedId, setSelectedId] = useState(null);
+  const[len,setlen]= useState(null);
+  const Item = ({ item, onPress, style }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+    <Text style={styles.title}>{item.car}</Text>
+  </TouchableOpacity>
+  );
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.car === selectedId ? colors.orange: colors.light_orange;
+
+    return (
+      <Item
+        item={item}
+        onPress={() => {setData(item.car,'name'),setSelectedId(item.car)}}
+        style={{ backgroundColor }}
+      />
+    );
+  };
 
   
   async function getCaarInfo(){
@@ -29,10 +41,9 @@ export default function Car(props) {
       .get('https://apirestmileage.herokuapp.com/api/car/')
       .then(function (response){
         response.data.map((datae,key)=> {
-          setRequestData(data => [...data, {label: datae.name, value: datae.name, icon: () => <Icon name="flag" size={18} color={colors.light_orange} />}]);
-          setdefaultvalue(datae.name);
-          // setLoading(false);
+          setRequestData(data => [...data, {car: datae.name, id: datae.id}]);
         });
+        setlen(response.data.length)
       })
       .catch(function (error) {
         console.log(error);
@@ -48,25 +59,19 @@ export default function Car(props) {
   }, []);
   
   return (
-    <ScrollView>
-      {/* <InputBasic
-        label="Car"
-        height={40}
-        type="default"
-        onChangeText={(e) => {
-          setData(e, 'name');
-        }}
-      /> */}
+    <View>
+      
       <View style= {styles.header}>
-      {data.length >0 ? <DropDown
-        label="Car"
-        height={40}
-        data = {data}
-        placeholder = "Selecione um carro"
-        onChangeItem={item => setData(item.value,'name')}
-        /> : <View>
+      {data.length == len ? <FlatList
+      
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.car}
+        extraData={selectedId}
+      />: <View>
           <Text style={styles.label}>Carregando os dados</Text>
           </View>}
+        
       <TouchableOpacity
         style={{marginRight: 25}}
         onPress={() => {
@@ -84,7 +89,7 @@ export default function Car(props) {
         }}
         />
 
-  </ScrollView>
+  </View>
 
   );
 }
@@ -93,7 +98,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
   },
-
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -105,6 +109,15 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginBottom: 5,
     fontWeight: 'bold',
+  },
+  item: {
+    padding: 5,
+    marginVertical: 2,
+    marginHorizontal: 150,
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 15,
   },
 });
 

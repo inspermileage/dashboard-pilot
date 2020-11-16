@@ -15,12 +15,13 @@ export default function DropDown(props) {
             defaultValue={null}
             placeholder={placeholder}
             
-            containerStyle={{height: 40,width:600}}
+            containerStyle={{height: 40,width:560}}
             style={[styles.input, {height: height}]}
             itemStyle={{
                 justifyContent: 'flex-start'
             }}
             dropDownStyle={{backgroundColor: '#fafafa'}} 
+            dropDownMaxHeight={2000}
         />
     </View>
   );

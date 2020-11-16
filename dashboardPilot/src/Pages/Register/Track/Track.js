@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View,StyleSheet,TouchableOpacity,Text} from 'react-native';
+import {View,StyleSheet,TouchableOpacity,Text, FlatList} from 'react-native';
 import InputBasic from '../../../Components/InputBasic';
 import {setTrackData} from '../../../Store/register/actions';
 import axios from 'axios';
@@ -16,14 +16,17 @@ export default function Track(props) {
   function setData(values, label) {
     dispatch(setTrackData({[label]: values}));
   }
+  const [selectedId, setSelectedId] = useState(null);
+  const[len,setlen]= useState(null);
   async function getTrackInfo(){
     await axios
       .get('https://apirestmileage.herokuapp.com/api/track/')
       .then(function (response){
         response.data.map((datae,key)=> {
-          setRequestData(data => [...data, {label: datae.name, value: "bla", icon: () => <Icon name="flag" size={18} color={colors.light_orange} />}]);
+          setRequestData(data => [...data, {track: datae.name, id: datae.id}]);
           // setLoading(false);
         });
+        setlen(response.data.length);
       })
       .catch(function (error) {
         console.log(error);
@@ -34,16 +37,34 @@ export default function Track(props) {
     getTrackInfo();
     console.log(data);
   }, []);
+  
+  const Item = ({ item, onPress, style }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+    <Text style={styles.title}>{item.track}</Text>
+  </TouchableOpacity>
+  );
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.track === selectedId ? colors.orange: colors.light_orange;
+
+    return (
+      <Item
+        item={item}
+        onPress={() => {setData(item.track,'name'),setSelectedId(item.track)}}
+        style={{ backgroundColor }}
+      />
+    );
+  };
 
   return (
     <View>
       <View style= {styles.header}>
-      {data.length >0 ? <DropDown
-        label="Track"
-        height={40}
-        data = {data}
-        onChangeItem={item => setData(item.value,'name')}
-        placeholder="Selecione uma pista"/>
+      {data.length ==len ? <FlatList
+      
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.track}
+      extraData={selectedId}
+    />
         : <View>
           <Text style={styles.label}>Carregando os dados</Text>
           </View>}
@@ -83,5 +104,14 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginBottom: 5,
     fontWeight: 'bold',
+  },
+  item: {
+    padding: 5,
+    marginVertical: 2,
+    marginHorizontal: 150,
+  },
+  title: {
+    fontSize: 15,
+    textAlign: 'center'
   },
 });
