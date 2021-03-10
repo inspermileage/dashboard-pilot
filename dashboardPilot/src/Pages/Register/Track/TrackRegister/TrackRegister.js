@@ -32,7 +32,7 @@ export default function TrackRegister(props) {
       });
   }
   return (
-    <View styles= {styles.container}>
+    <View style= {styles.container}>
       <Cadastro/>
       <ScrollView>
       <InputBasic
