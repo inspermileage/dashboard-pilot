@@ -2,7 +2,7 @@ import {
   REGISTER_CAR,
   REGISTER_TRACK,
   REGISTER_ROUND,
-  REGISTER_PHONE,
+  REGISTER_TELEMETRY,
 } from './types';
 
 const initialState = {
@@ -26,9 +26,23 @@ const initialState = {
     car_id: 0,
   },
 
-  phoneData: {
-    phoneNumber: '',
+
+  telemetryData:{
+
+    speed: 0,
+    distance: 0,
+    engine_temp: 0,
+    creation_time: "2020-10-18T15:29:25.253Z",
+    energy_cons: 0,
+    rpm: 0,
+    battery: 0,
+    round_id: 0
+
   },
+
+  // phoneData: {
+  //   phoneNumber: '',
+  // },
 };
 
 function registerReducer(state = initialState, {type, payload}) {
@@ -45,11 +59,18 @@ function registerReducer(state = initialState, {type, payload}) {
         ...state,
         roundData: {...state.roundData, ...payload},
       };
-    case REGISTER_PHONE:
+
+    case REGISTER_TELEMETRY:
       return {
         ...state,
-        phoneData: {...state.phoneData, ...payload},
+        telemetryData: {...state.telemetryData, ...payload},
       };
+
+    // case REGISTER_PHONE:
+    //   return {
+    //     ...state,
+    //     phoneData: {...state.phoneData, ...payload},
+    //   };
 
     default:
       return state;

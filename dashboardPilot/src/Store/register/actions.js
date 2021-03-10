@@ -2,7 +2,7 @@ import {
   REGISTER_CAR,
   REGISTER_ROUND,
   REGISTER_TRACK,
-  REGISTER_PHONE,
+  REGISTER_TELEMETRY
 } from './types';
 
 export function setCarData(payload) {
@@ -32,11 +32,22 @@ export function setRoundData(payload) {
   };
 }
 
-export function setPhoneData(payload) {
+export function setTelemetryData(payload) {
   return async (dispatch) => {
     dispatch({
-      type: REGISTER_PHONE,
+      type: REGISTER_TELEMETRY,
       payload,
     });
   };
 }
+
+// export function setPhoneData(payload) {
+//   return async (dispatch) => {
+//     dispatch({
+//       type: REGISTER_PHONE,
+//       payload,
+//     });
+//   };
+// }
+
+

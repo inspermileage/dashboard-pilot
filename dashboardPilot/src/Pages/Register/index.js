@@ -17,17 +17,18 @@ export default function Register() {
   const dataCar = useSelector((state) => state.register.carData);
   const dataTrack = useSelector((state) => state.register.trackData);
   const dataRound = useSelector((state) => state.register.roundData);
-  const dataPhone = useSelector((state) => state.register.phoneData);
+  // const dataPhone = useSelector((state) => state.register.phoneData);
 
-  // const {sendCarInfo, sendTrackInfo, sendRoundInfo} = postData(
-  //   dataCar,
-  //   dataTrack,
-  //   dataRound,
-  // );
-  
-  // const {getCarInfo, getTrackInfo} = getData();
 
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const {sendCarInfo, sendTrackInfo, sendRoundInfo} = postData(
+    dataCar,
+    dataTrack,
+    dataRound,
+  );
+
+  const {getCarInfo, getTrackInfo} = getData();
+
+  // const [phoneNumber, setPhoneNumber] = useState('');
 
   const scroll = useRef();
   const changeStep = () => {
@@ -37,8 +38,10 @@ export default function Register() {
   const navigation = useNavigation();
 
   function goTopage() {
-    console.log(dataPhone);
-    navigation.navigate('Main');
+    console.log('uhullllll');
+
+    sendRoundInfo();
+    // navigation.navigate('Main');
   }
 
   return (
@@ -90,7 +93,7 @@ export default function Register() {
           </ProgressStep>
 
           {/* ROUND */}
-          <ProgressStep
+          {/* <ProgressStep
             onNext={() => {
               // sendRoundInfo(), 
               changeStep;
@@ -106,12 +109,12 @@ export default function Register() {
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
             label="Round">
             <Round dispatch={dispatch} />
-          </ProgressStep>
+          </ProgressStep> */}
 
           {/* PHONE */}
           <ProgressStep
             onPrevious={changeStep}
-            onSubmit={goTopage}
+            onSubmit={()=> goTopage()}
             finishBtnText={'Salvar'}
             previousBtnText={
               <Icon name={'arrow-left'} size={50} color={colors.orange} />
@@ -126,8 +129,8 @@ export default function Register() {
               marginBottom: -20,
             }}
             previousBtnTextStyle={{color: 'lightgray', marginBottom: -20}}
-            label="Phone">
-            <Phone setPhoneNumber={setPhoneNumber} />
+            label="Round">
+            <Round dispatch={dispatch} />
           </ProgressStep>
         </ProgressSteps>
       </ScrollView>
