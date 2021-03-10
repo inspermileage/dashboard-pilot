@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, TextInput, Text, StyleSheet, Dimensions } from 'react-native';
+
 import colors from '../Themes/colors';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 export default function DropDown(props) {
+
 	const { height, label, data } = props;
 	return (
 		<View style={styles.container}>
@@ -46,4 +48,5 @@ const styles = StyleSheet.create({
 		width: Dimensions.get('window').width * 0.82,
 		paddingHorizontal: 20
 	}
+
 });
